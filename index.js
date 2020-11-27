@@ -2,7 +2,6 @@
 const port=process.env.PORT||1191,host=process.env.HOST||'';
 const express=require('express'),
     bp=require('body-parser'),
-    swig=require("swig"),
     fs=require("fs"),
     db=require("./database");
 var config=require('./config'),
