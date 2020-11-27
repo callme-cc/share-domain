@@ -10,6 +10,8 @@
 
 ## 食用
 
+请先确保你的域名是用cloudflare解析的,并已经获取了cloudflare的api token
+
 1. 克隆仓库
 
 2. `npm install`

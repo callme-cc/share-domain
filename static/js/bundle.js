@@ -24,11 +24,14 @@ async function sendToken(re=0){
     var res=await post('/api/sendToken',{email,re});
     Notice(res.data);
 }
-async function Fetch(){
+async function Fetch(log=1){
     var token=V('token'),email=V('email');
     var res=await post('/api/chkToken',{email,token});
     if(!res.status)Notice(res.data.error),E('token').Vue='';
-    else Notice(res.data),showAll();
+    else{
+        if(log)Notice(res.data);
+        showAll();
+    }
 }
 async function add(){
     var name=V('name')+'.'+zone_name,type=V('type'),content=V('content'),ttl=Number(V('ttl'));
@@ -37,7 +40,11 @@ async function add(){
         record:{type,name,content,ttl}
     });
     console.log(res.data);
-    if(res.status)Notice(`success id:${res.data.result.id}`),sleep(1000).then(Fetch);
+    if(res.status)
+        Notice(`success id:${res.data.result.id}`),sleep(1000).then(()=>{
+            Fetch(0);
+            E('name').value='';E('content').value='';
+        });
     else Notice(`failed: ${res.data.error}`);
 }
 async function all(){
@@ -102,12 +109,14 @@ async function del(id){
         record:{id}
     });
     console.log(res.data);
-    if(res.status)Notice(`success id:${res.data.result.id}`),sleep(1000).then(Fetch);
+    if(res.status)Notice(`success id:${res.data.result.id}`),sleep(1000).then(()=>{
+        Fetch(0);
+    });
     else Notice(`failed: ${res.data.error}`);
 }
 async function edit(id){
     var item=E(id);
-    var name=item.children[0].children[0].value,
+    var name=item.children[0].children[0].value+'.'+zone_name,
         type=item.children[1].children[0].value,
         content=item.children[2].children[0].value,
         ttl=item.children[3].children[0].value;
@@ -116,6 +125,9 @@ async function edit(id){
         record:{id,type,name,content,ttl}
     });
     console.log(res.data);
-    if(res.status)Notice(`success id:${res.data.result.id}`),sleep(1000).then(Fetch);
+    if(res.status)Notice(`success id:${res.data.result.id}`),sleep(1000).then(()=>{
+        Fetch(0);
+        E('name').value='';E('content').value='';
+    });
     else Notice(`failed: ${res.data.error}`);
 }

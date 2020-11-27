@@ -65,8 +65,20 @@ function reachQuota(email){
     var t=db.quotas.qry(email),x=t?t.quota:config.limit.per;
     return db.records.count(email)>=x;
 }
+var block=new Set();
+for(var i of config.limit.block)block.add(i);
+console.log(block);
+function chkName(name){
+    var prefix=name.slice(0,name.length-config.cf.zone_name.length-1);
+    console.log(prefix);
+    if(prefix.length<config.limit.minLength)return 0;
+    else if(block.has(prefix))return 0;
+    else return 1;
+}
 svr.post("/api/add",async(req,res)=>{
     var {email,token,record}=req.body;
+    if(!chkName(record.name))
+        return res.send(pr(0,{error:config.tips.IllegalName}));
     var t=db.records.select_name(record.name);
     console.log(t);
     if(t.length&&t[0].email!=email)return res.send(pr(0,{error:config.tips.WrongMaster}));
@@ -84,6 +96,8 @@ svr.post("/api/add",async(req,res)=>{
 });
 svr.post("/api/edit",async(req,res)=>{
     var {email,token,record}=req.body;
+    if(!chkName(record.name))
+        return res.send(pr(0,{error:config.tips.IllegalName}));
     if(!chkToken(email,token))return res.send(pr(0,{error:config.tips.WrongToken}));
     var t=db.records.select_name(record.name);
     if(t.length&&t[0].email!=email)return res.send(pr(0,{error:config.tips.WrongMaster}));

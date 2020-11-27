@@ -107,3 +107,9 @@ a[target="_blank"]:hover::after{
     transition:200ms;
     box-shadow: none;
 }
+#star{
+    font-size: 20px;
+    position:fixed;
+    bottom:0;left:0;
+    margin:1%;
+}
