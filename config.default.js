@@ -1,10 +1,10 @@
 module.exports={
-cf:{
+cf:{ // cloudflare api配置
     email:'zcmimi@outlook.com',
     key:'*************************************',
     zone_name:'kksk.best'
 },
-mailer:{
+mailer:{ // 邮件发送配置
     mailer:{
         host:"smtp.office365.com",
         port:587,
@@ -15,7 +15,7 @@ mailer:{
     },
     from: "zcmimi<zcmimi@outlook.com>"
 },
-limit:{
-    per:3
+limit:{ // 限制
+    per:3 // 每个邮箱最多享有几个二级域名
 }
 }
