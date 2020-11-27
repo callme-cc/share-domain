@@ -83,14 +83,16 @@ async function showAll(){
         type.append(Typeselect(i.type));type.align='left';
         content.append(Input(i.content));content.align='left';
         ttl.append(TTLselect(i.ttl));ttl.align='left';
-        var Del=CE('button'),Edit=CE('button');
+        var Del=CE('button'),Edit=CE('button'),visit=CE('a');
         Del.innerText='Del';
         Del.onclick=(x)=>{del(x.target.parentElement.parentElement.id);}
         Edit.innerText='Edit';
         Edit.onclick=(x)=>{edit(x.target.parentElement.parentElement.id);}
-        action.append(Del,Edit);
+        visit.href='http://'+i.name;visit.target='_blank';
+        // visit.innerText='visit';
+        action.append(Del,Edit,visit);
         item.id=i.id;
-        item.append(name,type,content,ttl,action);        
+        item.append(name,type,content,ttl,action);
         l.append(item);
     }
 }
