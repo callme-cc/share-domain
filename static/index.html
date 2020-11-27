@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <script>zone_name='kksk.best'</script>
+    <div id='loading' hidden>
+        <div></div><div></div><div></div><div></div>
+    </div>
+    <div id="notice" style="opacity:0;"></div>
+    <div class="container" style="padding-top: 50px;">
+        <p>
+            <input id='email' type="email" placeholder="email">
+            <button onclick="sendToken()">Send token</button>
+            <button onclick="sendToken(re=1)">Renew token</button>
+        </p>
+        <p>
+            <input id='token' type="password" placeholder="token">
+            <button onclick="Fetch()">Fetch</button>
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <th align="left">Name</th>
+                    <th align="left">Type</th>
+                    <th align="left">Content</th>
+                    <th align="left">TTL</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>
+                        <input id='name' type="text" placeholder="name">
+                    </th>
+                    <th>
+                        <select id='type'>
+                            <option value="A">A</option>
+                            <option value="CNAME">CNAME</option>
+                            <!-- <option value="MX">MX</option> -->
+                        </select>
+                    </th>
+                    <th>
+                        <input id='content' type="text" placeholder="content">
+                    </th>
+                    <th>
+                        <select id='ttl'>
+                            <option value=1>AUTO</option>
+                            <option value=2>2</option>
+                            <option value=5>5</option>
+                            <option value=10>10</option>
+                            <option value=15>15</option>
+                            <option value=60 >1H</option>
+                            <option value=120>2H</option>
+                            <option value=300>5H</option>
+                            <option value=720>12H</option>
+                            <option value=1440>1D</option>
+                        </select>
+                    </th>
+                    <th align="left">
+                        <button onclick="add()">Add</button>
+                    </th>
+                </tr>
+            </tbody>
+            <tbody id='items'>               
+
+            </tbody>
+        </table>        
+    </div>
+</body>
+<script src="./js/bundle.js"></script>
+</html>
