@@ -3,7 +3,7 @@ function V(id){return E(id).value.trim();}
 function startLoading(){E('loading').hidden=0;}
 function stopLoading(){E('loading').hidden=1;}
 function sleep(ti){return new Promise((resolve)=>setTimeout(resolve,ti));}
-function Notice(s,ti=1000){
+function Notice(s,ti=2000){
     var notice=E('notice');
     notice.innerText=s;notice.style.opacity=1;noticefade=0;function fade(){if(noticefade)if((notice.style.opacity-=0.01)>0)
     requestAnimationFrame(fade);}

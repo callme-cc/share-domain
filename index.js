@@ -25,7 +25,7 @@ svr.use(require("cookie-parser")());
 svr.use(express.static("./static"));
 
 svr.all('*',(req,res,nxt)=>{
-    if(req.body)console.log(req.body);
+    // if(req.body)console.log(req.body);
     nxt();
 });
 
@@ -34,13 +34,6 @@ function chkToken(email,token){
     var t=db.tokens.qry(email);
     return t&&t.token==token;
 }
-
-const 
-    WrongToken='Wrong token!',
-    WrongMaster='Wrong master',
-    Accepted='Accepted',
-    Failed='Failed',
-    QuotaExceeded='Quota exceeded!';
 
 svr.post("/api/sendToken",async(req,res)=>{
     var email=req.body.email,t=db.tokens.qry(email),token;
@@ -62,8 +55,8 @@ svr.post("/api/sendToken",async(req,res)=>{
 svr.get("/api/zone_name",async(req,res)=>{res.send(config.cf.zone_name)});
 svr.post("/api/chkToken",async(req,res)=>{
     var {email,token}=req.body;
-    if(!chkToken(email,token))res.send(pr(0,{error:WrongToken}));
-    else res.send(pr(1,Accepted));
+    if(!chkToken(email,token))res.send(pr(0,{error:config.tips.WrongToken}));
+    else res.send(pr(1,config.tips.Accepted));
 });
 svr.post("/api/search",async(req,res)=>{
     var t=db.records.select_name(req.body.name);
@@ -75,12 +68,12 @@ function reachQuota(email){
 }
 svr.post("/api/add",async(req,res)=>{
     var {email,token,record}=req.body;
-    if(!chkToken(email,token))return res.send(pr(0,{error:WrongToken}));
     var t=db.records.select_name(record.name);
     console.log(t);
-    if(t.length&&t[0].email!=email)return res.send(pr(0,{error:WrongMaster}));
+    if(t.length&&t[0].email!=email)return res.send(pr(0,{error:config.tips.WrongMaster}));
+    if(!chkToken(email,token))return res.send(pr(0,{error:config.tips.WrongToken}));
     if(reachQuota(email))
-        return res.send(pr(0,{error:QuotaExceeded}));
+        return res.send(pr(0,{error:config.tips.QuotaExceeded}));
     var t=await cf.add(record),ret=t.result;
     console.log(t);
     if(t.success){
@@ -92,9 +85,9 @@ svr.post("/api/add",async(req,res)=>{
 });
 svr.post("/api/edit",async(req,res)=>{
     var {email,token,record}=req.body;
-    if(!chkToken(email,token))return res.send(pr(0,{error:WrongToken}));
+    if(!chkToken(email,token))return res.send(pr(0,{error:config.tips.WrongToken}));
     var t=db.records.select_name(record.name);
-    if(t.length&&t[0].email!=email)return res.send(pr(0,{error:WrongMaster}));
+    if(t.length&&t[0].email!=email)return res.send(pr(0,{error:config.tips.WrongMaster}));
     var t=await cf.update(record),ret=t.result;
     console.log(t);
     if(t.success){
@@ -106,10 +99,10 @@ svr.post("/api/edit",async(req,res)=>{
 });
 svr.post("/api/del",async(req,res)=>{
     var {email,token,record}=req.body;
-    if(!chkToken(email,token))return res.send(pr(0,{error:WrongToken}));
     var t=db.records.qry(record.id);
     if(!t)return res.send(pr(0,'None'));
-    if(t.email!=email)return res.send(pr(0,{error:WrongMaster}));
+    if(t.email!=email)return res.send(pr(0,{error:config.tips.WrongMaster}));
+    if(!chkToken(email,token))return res.send(pr(0,{error:config.tips.WrongToken}));
     t=await cf.del(record);
     if(t.success){
         db.records.del(record.id);
@@ -119,7 +112,7 @@ svr.post("/api/del",async(req,res)=>{
 });
 svr.post("/api/all",async(req,res)=>{
     var {email,token}=req.body;
-    if(!chkToken(email,token))return res.send(pr(0,{error:WrongToken}));
+    if(!chkToken(email,token))return res.send(pr(0,{error:config.tips.WrongToken}));
     var t=db.records.select(email);
     return res.send(pr(1,t));
 });
