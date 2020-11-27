@@ -59,6 +59,7 @@ svr.post("/api/sendToken",async(req,res)=>{
     }
     catch(e){res.send(pr(0,{error:e}));}
 });
+svr.get("/api/zone_name",async(req,res)=>{res.send(config.cf.zone_name)});
 svr.post("/api/chkToken",async(req,res)=>{
     var {email,token}=req.body;
     if(!chkToken(email,token))res.send(pr(0,{error:WrongToken}));

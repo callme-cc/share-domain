@@ -5,10 +5,10 @@
     <title></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/style.min.css">
+    <script async>fetch('/api/zone_name').then(r=>r.text()).then(t=>{zone_name=t;});</script>
 </head>
 <body>
-    <script>zone_name='kksk.best'</script>
     <div id='loading' hidden>
         <div></div><div></div><div></div><div></div>
     </div>
@@ -30,7 +30,7 @@
                     <th align="left">Type</th>
                     <th align="left">Content</th>
                     <th align="left">TTL</th>
-                    <th></th>
+                    <th align="left">Action</th>
                 </tr>
             </thead>
             <tbody>
